@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crear Solicitud de Viaje</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+
+    .logout-container {
+      text-align: right;
+      margin-bottom: 1rem;
+    }
+
+    .logout-button {
+      background-color: #c0392b;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .logout-button:hover {
+      background-color: #922b21;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 1rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    input[readonly] {
+      background-color: #f0f0f0;
+    }
+
+    button {
+      margin-top: 2rem;
+      width: 100%;
+      padding: 1rem;
+      background-color: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1a242f;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logout-container">
+    <button class="logout-button" onclick="cerrarSesion()">Cerrar sesión</button>
+  </div>
+
+  <div class="container">
+    <h1>Crear Solicitud de Viaje</h1>
+    <form id="form-solicitud">
+      <label for="nombre">Nombre del Solicitante</label>
+      <input type="text" id="nombre" name="nombre" readonly>
+
+      <label for="fechaInicio">Fecha de Inicio del Viaje</label>
+      <input type="date" id="fechaInicio" name="fechaInicio" required>
+
+      <label for="fechaFin">Fecha de Fin del Viaje</label>
+      <input type="date" id="fechaFin" name="fechaFin" required>
+
+      <label for="tipoTrayecto">Tipo de Trayecto</label>
+      <select id="tipoTrayecto" name="tipoTrayecto" required>
+        <option value="">Selecciona una opción</option>
+        <option value="ida">Ida</option>
+        <option value="ida y vuelta">Ida y Vuelta</option>
+        <option value="múltiple">Trayectos Múltiples</option>
+      </select>
+
+      <label for="destino">Destino</label>
+      <input type="text" id="destino" name="destino" required>
+
+      <label for="observaciones">Observaciones</label>
+      <textarea id="observaciones" name="observaciones" rows="4"></textarea>
+
+      <button type="submit">Enviar Solicitud</button>
+    </form>
+  </div>
+
+  <script src="auth.js"></script>
+  <script src="script.js"></script>
+  <script src="auth.js"></script>
+<script src="script.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const usuario = obtenerUsuarioActivo();
+    if (!usuario) {
+      alert("Debes iniciar sesión primero.");
+      window.location.href = "index.html";
+      return;
+    }
+
+    // Restringir acceso a administradores
+    if (usuario.rol === "Administrador") {
+      alert("Los administradores no pueden crear solicitudes.");
+      window.location.href = "ver-solicitudes.html";
+      return;
+    }
+
+    // Rellenar nombre automáticamente
+    document.getElementById("nombre").value = usuario.nombre;
+  });
+</script>
+
+</body>
+</html>
